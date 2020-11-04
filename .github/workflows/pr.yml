@@ -80,31 +80,22 @@ jobs:
           cp spec/webgpu.idl out/webgpu.idl
           cp wgsl/index.html out/wgsl.html
       
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      # Deploys PR to Firebase
+      - name: Deploy PR
+        uses: FirebaseExtended/action-hosting-deploy@v0
         if: ${{ github.event.workflow_run.event == 'pull_request' && env.PR }}
         with:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          expires: 30d
+          expires: 1080d
           channelId: prs-${{ env.PR }}-${{ github.event.workflow_run.head_sha }}
-      
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          cat << EOF
-          ${{ toJSON(github) }}
-          EOF
-          cat << EOF
-          ${{ toJSON(env) }}
-          EOF
-          cat << EOF
-          ${{ toJSON(steps) }}
-          EOF
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          ls
-          ls spec
-          ls wgsl
+        
+      # Comments on PR
+      - name: Comment PR
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ github.event.workflow_run.event == 'pull_request' && env.PR }}
+        with:
+          issue-number: ${{ env.PR }}
+          body: |
+            Previews, as seen at the time of posting this comment:
+            [**WebGPU**](https://gpuweb-prs--prs-${{ env.PR }}-${{ github.event.workflow_run.head_sha }}.web.app/index.html) | [**IDL**](https://gpuweb-prs--prs-${{ env.PR }}-${{ github.event.workflow_run.head_sha }}.web.app/webgpu.idl)
+            [**WGSL**](https://gpuweb-prs--prs-${{ env.PR }}-${{ github.event.workflow_run.head_sha }}.web.app/wgsl.html)
