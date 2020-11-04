@@ -72,6 +72,7 @@ jobs:
           git clone --depth 1 https://github.com/tabatkins/bikeshed.git
           pip3 install --user --editable ./bikeshed
           export PATH="$(python3 -m site --user-base)/bin:${PATH}"
+          python3 --version
           bikeshed update
           mkdir out
           make -C spec
