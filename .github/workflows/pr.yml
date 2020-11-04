@@ -37,6 +37,31 @@ jobs:
           rm wgsl/index.bs
           wget -O spec/index.bs https://raw.githubusercontent.com/${{ github.event.workflow_run.head_repository.full_name }}/${{ github.event.workflow_run.head_sha }}/spec/index.bs
           wget -O wgsl/index.bs https://raw.githubusercontent.com/${{ github.event.workflow_run.head_repository.full_name }}/${{ github.event.workflow_run.head_sha }}/wgsl/index.bs
+          
+      - name: Init Firebase
+        if: ${{ github.event.workflow_run.event == 'pull_request' && env.PR }}
+        run: |
+          cat << EOF >> .firebaserc
+          {
+            "projects": {
+              "default": "gpuweb-prs"
+            }
+          }
+          EOF
+          cat << EOF >> firebase.json
+          {
+            "hosting": {
+              "public": "out",
+              "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+              ]
+            }
+          }
+          EOF
+          cat .firebaserc
+          cat firebase.json
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
