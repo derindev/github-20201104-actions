@@ -70,6 +70,7 @@ jobs:
         if: ${{ github.event.workflow_run.event == 'pull_request' && env.PR }}
         run: |
           pip3 install bikeshed
+          export PATH="$(python3 -m site --user-base)/bin:${PATH}"
           bikeshed update --skip-manifest
           mkdir out
           make -C spec
