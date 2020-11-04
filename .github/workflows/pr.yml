@@ -106,5 +106,5 @@ jobs:
           issue-number: ${{ env.PR }}
           body: |
             Previews, as seen at the time of posting this comment:
-            [**WebGPU**](${{ steps.deployment.details_url }}/index.html) | [**IDL**](${{ steps.deployment.details_url }}/webgpu.idl)
-            [**WGSL**](${{ steps.deployment.details_url }}/wgsl.html)
+            [**WebGPU**](${{ steps.deployment.outputs.details_url }}/index.html) | [**IDL**](${{ steps.deployment.outputs.details_url }}/webgpu.idl)
+            [**WGSL**](${{ steps.deployment.outputs.details_url }}/wgsl.html)
