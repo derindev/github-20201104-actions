@@ -101,6 +101,6 @@ jobs:
             [**WebGPU**](${{ steps.deployment.outputs.details_url }}/index.html) | [**IDL**](${{ steps.deployment.outputs.details_url }}/webgpu.idl)
             [**WGSL**](${{ steps.deployment.outputs.details_url }}/wgsl.html)
             <!--
-            pr;\thead;\tsha
-            ${{ env.PR }};\t${{ github.event.workflow_run.head_repository.full_name }};\t${{ github.event.workflow_run.head_sha }}
+            pr;head;sha
+            ${{ env.PR }};${{ github.event.workflow_run.head_repository.full_name }};${{ github.event.workflow_run.head_sha }}
             -->
