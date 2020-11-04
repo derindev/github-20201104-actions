@@ -69,11 +69,8 @@ jobs:
       - name: Build Bikeshed
         if: ${{ github.event.workflow_run.event == 'pull_request' && env.PR }}
         run: |
-          git clone --depth 1 https://github.com/tabatkins/bikeshed.git
-          pip3 install --user --editable ./bikeshed
-          export PATH="$(python3 -m site --user-base)/bin:${PATH}"
-          python3 --version
-          bikeshed update
+          pip3 install bikeshed
+          bikeshed update --skip-manifest
           mkdir out
           make -C spec
           make -C wgsl
